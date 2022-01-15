@@ -2,38 +2,58 @@ import typing as tp
 
 
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
-    """
-    Encrypts plaintext using a Caesar cipher.
-
-    >>> encrypt_caesar("PYTHON")
-    'SBWKRQ'
-    >>> encrypt_caesar("python")
-    'sbwkrq'
-    >>> encrypt_caesar("Python3.6")
-    'Sbwkrq3.6'
-    >>> encrypt_caesar("")
-    ''
-    """
     ciphertext = ""
-    # PUT YOUR CODE HERE
+    for i in plaintext:
+        if i.isalpha():
+            if (
+                ord(i) + shift % 26 > ord("z")
+                and i.islower()
+                or ord(i) + shift % 26 > ord("Z")
+                and i.isupper()
+            ):
+                ciphertext += chr(ord(i) + shift % 26 - 26)
+            elif shift < 0 and (
+                ord(i) + shift % 26 < ord("a")
+                and i.islower()
+                or ord(i) + shift % 26 < ord("A")
+                and i.isupper()
+            ):
+                ciphertext += chr(ord(i) + shift % 26 + 26)
+            else:
+                ciphertext += chr(ord(i) + shift % 26)
+        else:
+            ciphertext += chr(ord(i))
     return ciphertext
 
 
-def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
-    """
-    Decrypts a ciphertext using a Caesar cipher.
+"""Функция идентична encrypt_caesar, но shift берется с
+противоположным знаком
+"""
 
-    >>> decrypt_caesar("SBWKRQ")
-    'PYTHON'
-    >>> decrypt_caesar("sbwkrq")
-    'python'
-    >>> decrypt_caesar("Sbwkrq3.6")
-    'Python3.6'
-    >>> decrypt_caesar("")
-    ''
-    """
+
+def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
+    shift = -shift
     plaintext = ""
-    # PUT YOUR CODE HERE
+    for i in ciphertext:
+        if i.isalpha():
+            if (
+                ord(i) + shift % 26 > ord("z")
+                and i.islower()
+                or ord(i) + shift % 26 > ord("Z")
+                and i.isupper()
+            ):
+                plaintext += chr(ord(i) + shift % 26 - 26)
+            elif shift < 0 and (
+                ord(i) + shift % 26 < ord("a")
+                and i.islower()
+                or ord(i) + shift % 26 < ord("A")
+                and i.isupper()
+            ):
+                plaintext += chr(ord(i) + shift % 26 + 26)
+            else:
+                plaintext += chr(ord(i) + shift % 26)
+        else:
+            plaintext += chr(ord(i))
     return plaintext
 
 
@@ -42,5 +62,4 @@ def caesar_breaker_brute_force(ciphertext: str, dictionary: tp.Set[str]) -> int:
     Brute force breaking a Caesar cipher.
     """
     best_shift = 0
-    # PUT YOUR CODE HERE
     return best_shift
